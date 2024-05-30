@@ -15,4 +15,5 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 	r.POST("/courses", courseController.CreateCourse)
 
 	return r
+
 }

@@ -95,6 +95,7 @@ func main() {
 
 	// Iniciar el servidor en el puerto 8080
 	if err := r.Run(); err != nil {
+
 		log.Fatalf("failed to run server: %v", err)
 	}
 }

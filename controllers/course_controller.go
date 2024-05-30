@@ -28,6 +28,7 @@ func (ctrl *CourseController) CreateCourse(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
 	ctrl.DB.Create(&course)
 	c.JSON(http.StatusOK, course)
 }
