@@ -3,6 +3,7 @@ package services
 import (
 	"myapp/dtos"
 	"myapp/models"
+	"myapp/utils"
 
 	"gorm.io/gorm"
 )
@@ -26,17 +27,27 @@ func (s *UserService) GetAllUsers() ([]models.User, error) {
 }
 
 func (s *UserService) CreateUser(dto dtos.UsersDTO) (*models.User, error) {
+	// Hash the password
+	hashedPassword, err := utils.HashPassword(dto.Password)
+	if err != nil {
+		return nil, err
+	}
+
+	// Create the user model with the hashed password
 	user := &models.User{
 		Name:     dto.Name,
 		Email:    dto.Email,
 		Role:     dto.Role,
-		Password: dto.Password,
+		Password: hashedPassword,
 	}
+
+	// Save the user to the database
 	if err := s.db.Create(user).Error; err != nil {
 		return nil, err
 	}
 	return user, nil
 }
+
 func (s *UserService) GetUserByEmailAndPassword(email, password string) (*models.User, error) {
 	var user models.User
 	if err := s.db.Where("email = ? AND password = ?", email, password).First(&user).Error; err != nil {
