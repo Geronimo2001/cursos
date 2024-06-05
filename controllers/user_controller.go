@@ -6,8 +6,6 @@ import (
 	"net/http"
 	"strconv"
 
-	"gorm.io/gorm"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,9 +13,9 @@ type UserController struct {
 	UserService *services.UserService
 }
 
-func NewUserController(db *gorm.DB) *UserController {
+func NewUserController(userService *services.UserService) *UserController {
 	return &UserController{
-		UserService: services.NewUserService(db),
+		UserService: userService,
 	}
 }
 

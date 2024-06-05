@@ -2,6 +2,7 @@ package router
 
 import (
 	"myapp/controllers"
+	"myapp/services"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -9,7 +10,8 @@ import (
 
 func SetupUserRouter(r *gin.Engine, db *gorm.DB) *gin.Engine {
 
-	userController := controllers.NewUserController(db)
+	userService := services.NewUserService(db)
+	userController := controllers.NewUserController(userService)
 
 	r.GET("/users", userController.GetUsers)
 	r.POST("/user", userController.CreateUser)

@@ -37,6 +37,13 @@ func (s *UserService) CreateUser(dto dtos.UsersDTO) (*models.User, error) {
 	}
 	return user, nil
 }
+func (s *UserService) GetUserByEmailAndPassword(email, password string) (*models.User, error) {
+	var user models.User
+	if err := s.db.Where("email = ? AND password = ?", email, password).First(&user).Error; err != nil {
+		return nil, err
+	}
+	return &user, nil
+}
 
 // putCourse updates a User by ID
 func (s *UserService) UpdateUser(id uint, dto dtos.UsersDTO) (*models.User, error) {
@@ -61,4 +68,13 @@ func (s *UserService) DeleteUser(id uint) error {
 		return err
 	}
 	return nil
+}
+
+// get user by id
+func (s *UserService) GetUserByID(id int) (*models.User, error) {
+	var user models.User
+	if err := s.db.First(&user, id).Error; err != nil {
+		return nil, err
+	}
+	return &user, nil
 }

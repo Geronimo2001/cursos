@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"myapp/database"
 	"myapp/router"
 	"net/http"
@@ -9,18 +10,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type aplication struct {
-	DSN          string
-	DOmain       string
-	DB           repository.databaseRepo
-	auth         Auth
-	JWTSecret    string
-	JWTIssuer    string
-	JWTAudiene   string
-	CookieDomain string
-}
+const port = 8000
 
 func main() {
+
 	// Conectar a la base de datos
 	db := database.ConnectDB()
 	// defer db.Close()
@@ -31,7 +24,9 @@ func main() {
 	router.SetupCourseRouter(r, db)
 
 	// Iniciar el servidor
-	http.ListenAndServe(":8000", r)
+	err := http.ListenAndServe(fmt.Sprintf(":%d", port), r)
+	if err != nil {
+		log.Fatal(err)
+	}
 	fmt.Println("Server is running at http://localhost:8000")
-	//FIJATE QUE DIFERENCIA HAY ENTRE, COURSE CONTROLLER Y USER CONTROLLER UNO USA SERVICE
 }
