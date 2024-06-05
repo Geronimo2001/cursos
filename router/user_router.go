@@ -1,13 +1,13 @@
 package router
 
 import (
+	"myapp/controllers"
+
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
-	"myapp/controllers"
 )
 
-func SetpRouterUser(db *gorm.DB) *gin.Engine {
-	r := gin.Default()
+func SetupUserRouter(r *gin.Engine, db *gorm.DB) *gin.Engine {
 
 	userController := controllers.NewUserController(db)
 

@@ -1,11 +1,12 @@
 package controllers
 
 import (
-	"gorm.io/gorm"
 	"myapp/dtos"
 	"myapp/services"
 	"net/http"
 	"strconv"
+
+	"gorm.io/gorm"
 
 	"github.com/gin-gonic/gin"
 )
@@ -22,17 +23,17 @@ func NewUserController(db *gorm.DB) *UserController {
 
 // Get User
 func (cc *UserController) GetUsers(c *gin.Context) {
-	User, err := cc.UserService.GetAllUsers()
+	Users, err := cc.UserService.GetAllUsers()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, User)
+	c.JSON(http.StatusOK, Users)
 }
 
 // Post User
 func (cc *UserController) CreateUser(c *gin.Context) {
-	var dto dtos.UserDTO
+	var dto dtos.UsersDTO
 	if err := c.ShouldBindJSON(&dto); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -48,7 +49,7 @@ func (cc *UserController) CreateUser(c *gin.Context) {
 
 // Put User by id
 func (cc *UserController) UpdateUser(c *gin.Context) {
-	var dto dtos.UserDTO
+	var dto dtos.UsersDTO
 	if err := c.ShouldBindJSON(&dto); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

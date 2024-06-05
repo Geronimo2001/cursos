@@ -9,7 +9,7 @@ import (
 
 func ConnectDB() *gorm.DB {
 	// DSN (Data Source Name) de MySQL
-	dsn := "root:Gero3512@tcp(127.0.0.1:3306)/webcursos?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "root:aaccee552001@tcp(127.0.0.1:3306)/myaloalo?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {

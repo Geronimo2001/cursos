@@ -5,6 +5,8 @@ import (
 	"myapp/database"
 	"myapp/router"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -13,7 +15,9 @@ func main() {
 	// defer db.Close()
 
 	// Configurar el router
-	r := router.SetupRouter(db)
+	r := gin.Default()
+	router.SetupUserRouter(r, db)
+	router.SetupCourseRouter(r, db)
 
 	// Iniciar el servidor
 	http.ListenAndServe(":8000", r)
