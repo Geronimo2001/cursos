@@ -1,4 +1,4 @@
-package main
+package router
 
 import (
 	"github.com/gin-gonic/gin"
@@ -13,7 +13,9 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 
 	r.GET("/courses", courseController.GetCourses)
 	r.POST("/courses", courseController.CreateCourse)
+	r.PUT("/courses/:id", courseController.UpdateCourse)
+	r.DELETE("/courses/:id", courseController.DeleteCourse)
+	r.GET("/courses/name/:name", courseController.FindCourseByName)
 
 	return r
-
 }
