@@ -9,6 +9,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type aplication struct {
+	DSN          string
+	DOmain       string
+	DB           repository.databaseRepo
+	auth         Auth
+	JWTSecret    string
+	JWTIssuer    string
+	JWTAudiene   string
+	CookieDomain string
+}
+
 func main() {
 	// Conectar a la base de datos
 	db := database.ConnectDB()
