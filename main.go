@@ -22,6 +22,7 @@ func main() {
 	r := gin.Default()
 	router.SetupUserRouter(r, db)
 	router.SetupCourseRouter(r, db)
+	router.SetupEnrollRouter(r, db)
 
 	// Iniciar el servidor
 	err := http.ListenAndServe(fmt.Sprintf(":%d", port), r)

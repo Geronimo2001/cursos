@@ -9,7 +9,7 @@ type User struct {
 	Name     string `json:"name"`
 	Email    string `json:"email"`
 	Role     string `json:"role"`
-	Password string `json:"password"` // Atributo que no se transfiere
+	Password string `json:"password"`
 }
 
 func (u *User) FirstName() string {
