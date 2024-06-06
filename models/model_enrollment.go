@@ -3,7 +3,7 @@ package models
 import "time"
 
 type Enrollment struct {
-	UserID   uint      `json:"user_id"`
-	CourseID uint      `json:"course_id"`
-	Date     time.Time `json:"date"`
+	UserID   uint      `gorm:"foreignKey:ID"`
+	CourseID uint      `gorm:"foreignKey:ID"`
+	Date     time.Time `gorm:"type:datetime"`
 }

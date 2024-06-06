@@ -20,8 +20,7 @@ func (s *EnrollmentService) EnrollUserInCourse(userID, courseID uint) error {
 	enrollment := &models.Enrollment{
 		UserID:   userID,
 		CourseID: courseID,
-		Date:     time.Now(), // Utilizar la fecha actual
-
+		Date:     time.Now(),
 	}
 	return s.db.Create(enrollment).Error
 }
@@ -53,7 +52,7 @@ func (s *EnrollmentService) GetAllEnrollments() ([]dtos.EnrollmentsDTO, error) {
 		enrollmentDTO := dtos.EnrollmentsDTO{
 			UserID:   enrollment.UserID,
 			CourseID: enrollment.CourseID,
-			Date:     time.Now(), // Formatting date to string
+			Date:     enrollment.Date.Format("2006-01-02 15:04:05"), // Convertir a string aquí
 		}
 		enrollmentDTOs = append(enrollmentDTOs, enrollmentDTO)
 	}
