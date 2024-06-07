@@ -1,9 +1,10 @@
 package services
 
 import (
-	"gorm.io/gorm"
 	"myapp/dtos"
 	"myapp/models"
+
+	"gorm.io/gorm"
 )
 
 type CourseService struct {
@@ -29,7 +30,7 @@ func (s *CourseService) CreateCourse(dto dtos.CoursesDTO) (*models.Course, error
 		Name:        dto.Name,
 		Length:      dto.Length,
 		Keywords:    dto.Keywords,
-		Desc:        dto.Desc,
+		Description: dto.Description,
 		Req:         dto.Req,
 		Teachername: dto.Teachername,
 	}
@@ -63,7 +64,7 @@ func (s *CourseService) UpdateCourse(id uint, dto dtos.CoursesDTO) (*models.Cour
 	course.Name = dto.Name
 	course.Length = dto.Length
 	course.Keywords = dto.Keywords
-	course.Desc = dto.Desc
+	course.Description = dto.Description
 	course.Req = dto.Req
 	course.Teachername = dto.Teachername
 	if err := s.db.Save(&course).Error; err != nil {

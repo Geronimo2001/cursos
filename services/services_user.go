@@ -1,9 +1,9 @@
 package services
 
 import (
-	"myapp/database"
 	"myapp/dtos"
 	"myapp/models"
+	"myapp/utils"
 
 	"gorm.io/gorm"
 )
@@ -12,35 +12,52 @@ type UserService struct {
 	db *gorm.DB
 }
 
-func NewUserService(*gorm.DB) *UserService {
+func NewUserService(db *gorm.DB) *UserService {
 	return &UserService{
-		db: database.ConnectDB(),
+		db: db,
 	}
 }
 
 func (s *UserService) GetAllUsers() ([]models.User, error) {
-	var students []models.User
-	if err := s.db.Find(&students).Error; err != nil {
+	var users []models.User
+	if err := s.db.Find(&users).Error; err != nil {
 		return nil, err
 	}
-	return students, nil
+	return users, nil
 }
 
-func (s *UserService) CreateUser(dto dtos.UserDTO) (*models.User, error) {
-	student := &models.User{
-		Name:     dto.Name,
-		Email:    dto.Email,
-		Role:     dto.Role,     // mio
-		Password: dto.Password, //mio
-	}
-	if err := s.db.Create(student).Error; err != nil {
+func (s *UserService) CreateUser(dto dtos.UsersDTO) (*models.User, error) {
+	// Hash the password
+	hashedPassword, err := utils.HashPassword(dto.Password)
+	if err != nil {
 		return nil, err
 	}
-	return student, nil
+
+	// Create the user model with the hashed password
+	user := &models.User{
+		Name:     dto.Name,
+		Email:    dto.Email,
+		Role:     dto.Role,
+		Password: hashedPassword,
+	}
+
+	// Save the user to the database
+	if err := s.db.Create(user).Error; err != nil {
+		return nil, err
+	}
+	return user, nil
+}
+
+func (s *UserService) GetUserByEmailAndPassword(email, password string) (*models.User, error) {
+	var user models.User
+	if err := s.db.Where("email = ? AND password = ?", email, password).First(&user).Error; err != nil {
+		return nil, err
+	}
+	return &user, nil
 }
 
 // putCourse updates a User by ID
-func (s *UserService) UpdateUser(id uint, dto dtos.UserDTO) (*models.User, error) {
+func (s *UserService) UpdateUser(id uint, dto dtos.UsersDTO) (*models.User, error) {
 	var user models.User
 	if err := s.db.First(&user, id).Error; err != nil {
 		return nil, err
@@ -62,4 +79,13 @@ func (s *UserService) DeleteUser(id uint) error {
 		return err
 	}
 	return nil
+}
+
+// get user by id
+func (s *UserService) GetUserByID(id int) (*models.User, error) {
+	var user models.User
+	if err := s.db.First(&user, id).Error; err != nil {
+		return nil, err
+	}
+	return &user, nil
 }

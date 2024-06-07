@@ -1,13 +1,13 @@
 package router
 
 import (
+	"myapp/controllers"
+
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
-	"myapp/controllers"
 )
 
-func SetupRouter(db *gorm.DB) *gin.Engine {
-	r := gin.Default()
+func SetupCourseRouter(r *gin.Engine, db *gorm.DB) *gin.Engine {
 
 	courseController := controllers.NewCourseController(db)
 

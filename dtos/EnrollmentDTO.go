@@ -1,9 +1,7 @@
 package dtos
 
-import "time"
-
-type Enrollment struct {
-	UserID   uint      `json:"foreignKey:ID"`
-	CourseID uint      `json:"foreignKey:ID"`
-	Date     time.Time `json:"size:255"`
+type EnrollmentsDTO struct {
+	UserID   uint   `json:"user_id"`
+	CourseID uint   `json:"course_id"`
+	Date     string `json:"date"`
 }
